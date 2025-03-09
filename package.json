@@ -5,7 +5,7 @@
   "scripts": {
     "server": "node server.js",
     "json-server": "json-server-auth db.json --watch --port 8000",
-    "start": "concurrently \"npm run server\" \"npm run json-server\""
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "json-server-auth db.json --watch --port 5000",
-    "server": "node server.js"
-  },
+  "start": "json-server-auth db.json --port $PORT",
+  "server": "node server.js"
+},
   "author": "",
   "license": "ISC",
   "dependencies": {

@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "json-server-auth db.json --port $PORT --host 0.0.0.0",
-  "server": "node server.js"
+  "start": "node server.js"
 },
   "author": "",
   "license": "ISC",

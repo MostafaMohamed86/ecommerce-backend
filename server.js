@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -64,7 +64,7 @@ app.get('/categories', (req, res) => {
 // تشغيل السيرفر
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on http://localhost:${PORT}`);
-=======
+
 // server.js
 
 const express = require("express");
@@ -118,5 +118,5 @@ app.post('/register', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
->>>>>>> 323215c (تعديلات على الملفات لتناسب deploy على Railway)
-});
+
+})});

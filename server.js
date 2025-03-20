@@ -104,11 +104,10 @@ app.post("/register", (req, res) => {
 });
 
 // 🚀 تشغيل السيرفر
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
-});
+const axios = require("axios");
 
-// منع التوقف التلقائي
 setInterval(() => {
-  console.log("Keeping server alive...");
-}, 10000);
+    axios.get(`http://0.0.0.0:${PORT}`)
+        .then(() => console.log("🔁 Pinging server to keep it alive..."))
+        .catch(err => console.error("❌ Error pinging server:", err));
+}, 5 * 60 * 1000); // كل 5 دقائق

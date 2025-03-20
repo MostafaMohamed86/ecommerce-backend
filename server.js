@@ -1,113 +1,117 @@
-// server.js
-
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ تحميل البيانات من db.json مرة واحدة
+// تحميل البيانات من db.json
 const filePath = path.join(__dirname, "db.json");
 let data = {};
 
 function loadData() {
-  try {
-    const jsonData = fs.readFileSync(filePath, "utf8");
-    data = JSON.parse(jsonData);
-    console.log("✅ db.json loaded successfully!");
-  } catch (error) {
-    console.error("❌ Error reading db.json:", error);
-    data = { products: [], categories: [], users: [] };
-  }
+    try {
+        const jsonData = fs.readFileSync(filePath, "utf8");
+        data = JSON.parse(jsonData);
+        console.log("✅ db.json loaded successfully!");
+    } catch (error) {
+        console.error("❌ Error reading db.json:", error);
+        data = { products: [], categories: [], users: [] };
+    }
 }
 
-// تحميل البيانات عند بدء السيرفر
 loadData();
 
-// 📝 API لجلب المنتجات
+// ✅ فحص جاهزية السيرفر
+app.get("/", (req, res) => {
+    res.send("🚀 Server is running!");
+});
+
+// ✅ API لجلب المنتجات
 app.get("/products", (req, res) => {
-  try {
-    let { cat_prefix, id } = req.query;
-    let filteredProducts = data.products || [];
+    try {
+        const { cat_prefix, id } = req.query;
+        let filteredProducts = data.products || [];
 
-    if (cat_prefix) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.cat_prefix === cat_prefix
-      );
+        // فلترة حسب cat_prefix
+        if (cat_prefix) {
+            filteredProducts = filteredProducts.filter(product => product.cat_prefix === cat_prefix);
+        }
+
+        // فلترة حسب id
+        if (id) {
+            const ids = Array.isArray(id) ? id.map(Number) : [Number(id)];
+            filteredProducts = filteredProducts.filter(product => ids.includes(product.id));
+        }
+
+        res.json(filteredProducts);
+    } catch (error) {
+        console.error("❌ Error filtering products:", error);
+        res.status(500).json({ message: "Error reading products" });
     }
-
-    if (id) {
-      const ids = Array.isArray(id) ? id.map(Number) : [Number(id)];
-      filteredProducts = filteredProducts.filter((product) =>
-        ids.includes(product.id)
-      );
-    }
-
-    res.json(filteredProducts);
-  } catch (error) {
-    console.error("❌ Error filtering products:", error);
-    res.status(500).json({ message: "Error reading products" });
-  }
 });
 
-// 📝 API لجلب التصنيفات
+// ✅ API لجلب التصنيفات
 app.get("/categories", (req, res) => {
-  try {
-    res.json(data.categories || []);
-  } catch (error) {
-    console.error("❌ Error fetching categories:", error);
-    res.status(500).json({ message: "Error fetching categories" });
-  }
+    try {
+        res.json(data.categories || []);
+    } catch (error) {
+        console.error("❌ Error fetching categories:", error);
+        res.status(500).json({ message: "Error fetching categories" });
+    }
 });
 
-// 📝 API لجلب المستخدمين
+// ✅ API لجلب المستخدمين
 app.get("/users", (req, res) => {
-  try {
-    res.json(data.users || []);
-  } catch (error) {
-    console.error("❌ Error fetching users:", error);
-    res.status(500).json({ message: "Error fetching users" });
-  }
+    try {
+        res.json(data.users || []);
+    } catch (error) {
+        console.error("❌ Error fetching users:", error);
+        res.status(500).json({ message: "Error fetching users" });
+    }
 });
 
-// 📝 API لتسجيل مستخدم جديد
+// ✅ API للتسجيل
 app.post("/register", (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password } = req.body;
 
-  console.log("Received registration request:", req.body);
+    console.log("🔑 Received registration request:", req.body);
 
-  try {
-    const newUser = {
-      id: Date.now(),
-      first_name,
-      last_name,
-      email,
-      password,
-      created_at: new Date().toISOString(),
-    };
+    try {
+        const newUser = {
+            id: Date.now(),
+            first_name,
+            last_name,
+            email,
+            password,
+            created_at: new Date().toISOString(),
+        };
 
-    data.users.push(newUser);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+        // إضافة المستخدم للـ db.json
+        data.users.push(newUser);
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-    console.log("User added successfully:", newUser);
-    res.status(201).json(newUser);
-  } catch (err) {
-    console.error("❌ Error adding user:", err);
-    res.status(500).json({ error: "Error adding user" });
-  }
+        console.log("✅ User added successfully:", newUser);
+        res.status(201).json(newUser);
+    } catch (err) {
+        console.error("❌ Error adding user:", err);
+        res.status(500).json({ error: "Error adding user" });
+    }
 });
 
-// 🚀 تشغيل السيرفر
-const axios = require("axios");
-
+// ✅ Self-ping كل 5 دقائق
 setInterval(() => {
-    axios.get(`http://0.0.0.0:${PORT}`)
+    axios.get(`http://localhost:${PORT}`)
         .then(() => console.log("🔁 Pinging server to keep it alive..."))
         .catch(err => console.error("❌ Error pinging server:", err));
-}, 5 * 60 * 1000); // كل 5 دقائق
+}, 5 * 60 * 1000);
+
+// ✅ بدء السيرفر
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+});

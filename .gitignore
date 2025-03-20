@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 node_modules/
 db.json
+=======
+node_modules
+>>>>>>> 323215c (تعديلات على الملفات لتناسب deploy على Railway)
 .env

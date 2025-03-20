@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -63,4 +64,59 @@ app.get('/categories', (req, res) => {
 // تشغيل السيرفر
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on http://localhost:${PORT}`);
+=======
+// server.js
+
+const express = require("express");
+const fs = require("fs");
+const app = express();
+const cors = require("cors");
+require("dotenv").config();
+
+// Middleware
+app.use(cors());
+app.use(express.json()); // عشان نقدر نقرأ الـ body
+
+// مسار ملف JSON
+const dbFilePath = "./db.json";
+
+// دالة لإضافة مستخدم للـ JSON
+const addUserToJson = (user) => {
+  const data = JSON.parse(fs.readFileSync(dbFilePath, "utf8"));
+  data.users.push(user);
+  fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2));
+};
+
+// راوت التسجيل
+app.post('/register', (req, res) => {
+  const { first_name, last_name, email, password } = req.body;
+
+  // طباعة البيانات اللي جاية من الـ Frontend
+  console.log("Received registration request:", req.body);
+
+  try {
+    const newUser = {
+      id: Date.now(), // بنخلي الـ id يكون رقم فريد
+      first_name,
+      last_name,
+      email,
+      password,
+      created_at: new Date().toISOString(),
+    };
+
+    addUserToJson(newUser);
+
+    console.log("User added successfully:", newUser);
+    res.status(201).json(newUser);
+  } catch (err) {
+    console.error("Error adding user:", err);
+    res.status(500).json({ error: 'Error adding user' });
+  }
+});
+
+// شغل السيرفر
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+>>>>>>> 323215c (تعديلات على الملفات لتناسب deploy على Railway)
 });

@@ -75,6 +75,17 @@ app.get("/users", (req, res) => {
         res.status(500).json({ message: "Error fetching users" });
     }
 });
+app.get("/users/:id", (req, res) => {
+    const { id } = req.params;
+    const user = db.get("users").find({ id: parseInt(id) }).value();
+    res.json(user);
+  });
+  
+  app.get("/users/email/:email", (req, res) => {
+    const { email } = req.params;
+    const user = db.get("users").find({ email }).value();
+    res.json(user);
+  });
 
 // ✅ API للتسجيل
 app.post("/register", (req, res) => {

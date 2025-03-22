@@ -69,23 +69,26 @@ app.get("/categories", (req, res) => {
 // ✅ API لجلب المستخدمين
 app.get("/users", (req, res) => {
     try {
-        res.json(data.users || []);
+        const { email, id } = req.query;
+        let filteredUsers = data.users || [];
+
+        // فلترة حسب email
+        if (email) {
+            filteredUsers = filteredUsers.filter(user => user.email === email);
+        }
+
+        // فلترة حسب id
+        if (id) {
+            const ids = Array.isArray(id) ? id.map(Number) : [Number(id)];
+            filteredUsers = filteredUsers.filter(user => ids.includes(user.id));
+        }
+
+        res.json(filteredUsers);
     } catch (error) {
-        console.error("❌ Error fetching users:", error);
+        console.error("❌ Error filtering users:", error);
         res.status(500).json({ message: "Error fetching users" });
     }
 });
-app.get("/users/:id", (req, res) => {
-    const { id } = req.params;
-    const user = db.get("users").find({ id: parseInt(id) }).value();
-    res.json(user);
-  });
-  
-  app.get("/users/email/:email", (req, res) => {
-    const { email } = req.params;
-    const user = db.get("users").find({ email }).value();
-    res.json(user);
-  });
 
 // ✅ API للتسجيل
 app.post("/register", (req, res) => {

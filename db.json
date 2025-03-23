@@ -1,55 +1,5 @@
 {
-  "users": [
-    {
-      "email": "mostafa@gmail.com",
-      "password": "$2a$10$2.lXzBKshrk2D42LL13nXOpdFibl4IbsvbVs8frU0/f6mVqkp58ha",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 1
-    },
-    {
-      "email": "mostafa_alromance52@yahoo.com",
-      "password": "$2a$10$5bR9uayOoe/Bxgus35OFROGCL1VfvoYS8PYwggsIBLZ5I7Guxd5yC",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 2
-    },
-    {
-      "email": "mostafa.mohamed0869@gmail.com",
-      "password": "$2a$10$34wVf.uUGdVjLTNOynPMwepxPtD8I4QeynJlxk4spttq9slQ9z67m",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 3
-    },
-    {
-      "email": "mohamed@gmail.com",
-      "password": "$2a$10$ABw0f8LVB4ucM4sb.6SSf.JssC8Z7JVkK54dhOVywJG0ohVcum0eq",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 4
-    },
-    {
-      "email": "mosta@gmail.com",
-      "password": "$2a$10$.bFGQGwa67H9UTwGB8jUIehTYViT787U0LI.qCdAfdwaYjjix6oOK",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 5
-    },
-    {
-      "email": "mohamed45@yahoo.com",
-      "password": "$2a$10$I6oAFrXLJPViUM6GBL8jE.lqPNwVXxqFtlhHCvhFuVo1CauEuJdUa",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 6
-    },
-    {
-      "email": "mohamed46@yahoo.com",
-      "password": "$2a$10$yo2.upv4VJ.lBdMv33J3wOPmu5XlnjjvY4rswpaaI.ISFGc61UvqK",
-      "firstName": "mostafa",
-      "lastName": "mohamed",
-      "id": 7
-    }
-  ],
+  "users": [],
   "categories": [
     {
       "id": 1,

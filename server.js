@@ -97,6 +97,9 @@ app.post("/register", (req, res) => {
     console.log("🔑 Received registration request:", req.body);
 
     try {
+        // تحميل البيانات من الملف لتحديثها مباشرة
+        loadData();
+
         const newUser = {
             id: Date.now(),
             first_name,
@@ -117,6 +120,43 @@ app.post("/register", (req, res) => {
         res.status(500).json({ error: "Error adding user" });
     }
 });
+
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+
+    console.log("🔑 Received login request:", req.body);
+
+    try {
+        // البحث عن المستخدم بناءً على البريد الإلكتروني وكلمة السر
+        const user = data.users.find((user) => user.email === email && user.password === password);
+
+        if (!user) {
+            console.log("❌ User not found or incorrect password");
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // إنشاء توكن وهمي (في مشروع حقيقي نستخدم JWT)
+        const accessToken = `fake-jwt-token-${user.id}`;
+
+        // الرد ببيانات المستخدم والتوكن
+        res.json({
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.first_name,
+                lastName: user.last_name,
+            },
+            accessToken,
+        });
+
+        console.log("✅ User logged in successfully:", user.email);
+    } catch (err) {
+        console.error("❌ Error during login:", err);
+        res.status(500).json({ error: "Error during login" });
+    }
+});
+
 
 // ✅ Self-ping كل 5 دقائق
 setInterval(() => {

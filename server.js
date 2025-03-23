@@ -128,6 +128,9 @@ app.post("/login", (req, res) => {
     console.log("🔑 Received login request:", req.body);
 
     try {
+        // تحميل البيانات من الملف قبل البحث
+        loadData();
+
         // البحث عن المستخدم بناءً على البريد الإلكتروني وكلمة السر
         const user = data.users.find((user) => user.email === email && user.password === password);
 
@@ -156,7 +159,6 @@ app.post("/login", (req, res) => {
         res.status(500).json({ error: "Error during login" });
     }
 });
-
 
 // ✅ Self-ping كل 5 دقائق
 setInterval(() => {

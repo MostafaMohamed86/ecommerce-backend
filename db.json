@@ -1,5 +1,22 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": 1742839256464,
+      "firstName": "mostafa",
+      "lastName": "mohamed",
+      "email": "mohamed@gmail.com",
+      "password": "123456789@",
+      "created_at": "2025-03-24T18:00:56.464Z"
+    },
+    {
+      "id": 1742840203603,
+      "firstName": "moahdg",
+      "lastName": "mohmert",
+      "email": "mostafa.mohamed0869@gmail.com",
+      "password": "123456789@",
+      "created_at": "2025-03-24T18:16:43.603Z"
+    }
+  ],
   "categories": [
     {
       "id": 1,
